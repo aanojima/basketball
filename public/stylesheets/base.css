@@ -1,0 +1,65 @@
+body 
+{
+	font-family: Monospace;
+	font-weight: bold;
+	background-color: #ccccff;
+	margin: 0px;
+	overflow: hidden;
+}
+
+#control-menu {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 150px;
+	z-index: 10;
+	background-color: white;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.control-title {
+	/*TODO Change font size etec*/
+}
+
+.control-row {
+	position : relative;
+	/*height : 100px;*/
+	margin-top : 5px;
+	margin-bottom : 5px;
+}
+
+.control-item {
+	display : inline-block;
+	position: relative;
+	/*width : 50px;*/
+	height : 100%;
+	margin : auto;
+	margin-left : 10px;
+	margin-right : 10px;
+}
+
+.control-icon img {
+	position: relative;
+	width : 100px;
+	margin : auto;
+}
+
+.control-icon:hover {
+	cursor: pointer;
+}
+
+.split {
+	height: 50px;
+	border-left: solid black;
+}
+
+.position-title {
+	height : 15px;
+}
+
+.position-label {
+	margin-top:8px;
+	height : 21px;
+}
