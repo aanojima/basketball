@@ -422,32 +422,108 @@ function Backboard(side){
 	function init(side){
 		// TODO: Unique texture for each side
 		// Z+, Z-, Y+, Y-
-		var materials = [
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-side.png'),
-				shininess: 15
-			}),
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-side.png'),
-				shininess: 15
-			}),
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-top.png'),
-				shininess: 15
-			}),
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-top.png'),
-				shininess: 15
-			}),
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-front.png'),
-				shininess: 15
-			}),
-			new THREE.MeshPhongMaterial({
-				map : THREE.ImageUtils.loadTexture('public/images/basketball-backboard-back.png'),
-				shininess: 15
-			})
-		];
+		var loader = new THREE.TextureLoader();
+		loader.crossOrigin = '';
+
+		var materials = [];
+		
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball-backboard-side.png',
+			function (texture){
+				var material = new THREE.MeshPhongMaterial({
+					map: texture,
+					shininess: 15
+				});
+				materials.push(material);
+				materials.push(material);
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
+
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball-backboard-top.png',
+			function (texture){
+				var material = new THREE.MeshPhongMaterial({
+					map: texture,
+					shininess: 15
+				});
+				materials.push(material);
+				materials.push(material);
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
+
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball-backboard-front.png',
+			function (texture){
+				var material = new THREE.MeshPhongMaterial({
+					map: texture,
+					shininess: 15
+				});
+				materials.push(material);
+				materials.push(material);
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
+
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball-backboard-back.png',
+			function (texture){
+				var material = new THREE.MeshPhongMaterial({
+					map: texture,
+					shininess: 15
+				});
+				materials.push(material);
+				materials.push(material);
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
+		// var materials = [
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-side.png'),
+		// 		shininess: 15
+		// 	}),
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-side.png'),
+		// 		shininess: 15
+		// 	}),
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-top.png'),
+		// 		shininess: 15
+		// 	}),
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-top.png'),
+		// 		shininess: 15
+		// 	}),
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-front.png'),
+		// 		shininess: 15
+		// 	}),
+		// 	new THREE.MeshPhongMaterial({
+		// 		map : THREE.ImageUtils.loadTexture('http://www.aanojima.com/basketball/public/images/basketball-backboard-back.png'),
+		// 		shininess: 15
+		// 	})
+		// ];
 		var material = new THREE.MeshFaceMaterial(materials);
 		var geometry = new THREE.BoxGeometry(WIDTH, HEIGHT, DEPTH);
 		if (side === "HOME"){

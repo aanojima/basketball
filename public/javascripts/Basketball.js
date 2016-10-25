@@ -153,9 +153,7 @@ function Basketball(){
 		];
 
 		var geometry = new THREE.SphereGeometry(RADIUS, 32, 32);
-		var material = new THREE.MeshLambertMaterial({ 
-			map: new THREE.ImageUtils.loadTexture('public/images/basketball.jpg')
-		});
+		var material = new THREE.MeshLambertMaterial({});
 		_mesh = new THREE.Mesh(geometry, material);
 		_mesh.castShadow = true;
 		_mesh.receiveShadow = false;
@@ -163,6 +161,21 @@ function Basketball(){
 		_angularVelocity = (new THREE.Vector3(_state[1].x, 0, _state[1].z)).multiplyScalar(0.25 / RADIUS);
 		_normalHash = {};
 		_frictionHash = {};
+
+		var loader = new THREE.TextureLoader();
+		loader.crossOrigin = '';
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball.jpg',
+			function (texture){
+				material.map = texture;
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
 	}
 
 	this.rotateAroundWorldAxis = function(axis, radians){

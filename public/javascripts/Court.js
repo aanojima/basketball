@@ -56,9 +56,7 @@ function Court(){
 	}
 
 	function init(){
-		var texture = new THREE.ImageUtils.loadTexture('public/images/basketball-court.png');
 		var material = new THREE.MeshPhongMaterial({
-			map : texture,
 			color : 0xffffff,
 			side: THREE.DoubleSide,
 			shininess: 30
@@ -68,7 +66,22 @@ function Court(){
 		_mesh.receiveShadow = true;
 		_mesh.rotation.x = Math.PI / 2;
 		_offset = _mesh.position.y;
-		
+
+		var loader = new THREE.TextureLoader();
+		loader.crossOrigin = '';
+		loader.load(
+			'http://www.aanojima.com/basketball/public/images/basketball-court.png',
+			function (texture){
+				console.log(material);
+				material.map = texture;
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
 	}
 
 	init();
