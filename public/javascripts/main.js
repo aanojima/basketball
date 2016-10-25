@@ -11,9 +11,6 @@ var step = 1/60.0; // PATRAMETER (60 FPS) 0.022
 // var step = 1/45; // PATRAMETER (45 FPS) 0.022
 var BOUNCE_THRESHOLD = METERS(0.75); // PARAMETER
 
-init();
-animate();
-
 // FUNCTIONS
 function init() 
 {
@@ -27,7 +24,6 @@ function init()
 	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight - 150;
 	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
 	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	scene.add(camera);
 	camera.position.set(FEET(0),FEET(10),FEET(0));
 	camera.lookAt(scene.position);
 	
@@ -57,59 +53,46 @@ function init()
 	topLight1.castShadow = true;
 	topLight1.shadowDarkness = 0.5;
 	topLight1.intensity = 0.0;
-	scene.add(topLight1);
 
 	var topLight2 = new THREE.DirectionalLight(0xffffff);
 	topLight2.position.set(FEET(40),FEET(50),0);
 	topLight2.castShadow = false;
 	topLight2.shadowDarkness = 0.5;
 	topLight2.intensity = 0.4;
-	scene.add(topLight2);
 
 	var topLight3 = new THREE.DirectionalLight(0xffffff);
 	topLight3.position.set(FEET(-40),FEET(50),0);
 	topLight3.castShadow = false;
 	topLight3.shadowDarkness = 0.5;
 	topLight3.intensity = 0.4;
-	scene.add(topLight3);
 
 
 	var light = new THREE.AmbientLight( 0x828282 ); // soft white light
-	scene.add( light );
 	
 	// FLOOR
 	court = new Court();
-	scene.add(court.getMesh());
 
 	// Backboard
 	homeBackboard = new Backboard("HOME");
-	scene.add(homeBackboard.getMesh());
 	awayBackboard = new Backboard("AWAY");
-	scene.add(awayBackboard.getMesh());
 
 	// Rim
 	homeRim = new Rim("HOME");
-	scene.add(homeRim.getMesh());
 	awayRim = new Rim("AWAY", scene);
-	scene.add(awayRim.getMesh());
 
 	// Net
 	homeNet = new Net("HOME");
-	scene.add(homeNet.getMesh());
 	awayNet = new Net("AWAY");
-	scene.add(awayNet.getMesh());
 	
 	// SKYBOX
 	var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
 	var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
 	var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-	scene.add(skyBox);
 	
 	////////////////
 	// Basketball //
 	////////////////
 	basketball = new Basketball();
-	scene.add(basketball.getMesh());
 
 	// Velocity Display Arrow
 	var velocity = basketball.getVelocity();
@@ -118,7 +101,6 @@ function init()
 	var origin = basketball.getPosition();
 	var hex = 0xff0000;
 	arrowHelper = new THREE.ArrowHelper(dir, origin, length, hex);
-	scene.add(arrowHelper);
 
 	// Set State Controls
 	$("#x-position").val(PIXEL2FEET(origin.x));
@@ -155,6 +137,22 @@ function init()
 	$(document).on("ballfocus", function(event){
 		controls.center = basketball.getPosition();
 	});
+
+	scene.add(camera);
+	scene.add(topLight1);
+	scene.add(topLight2);
+	scene.add(topLight3);
+	scene.add( light );
+	scene.add(court.getMesh());
+	scene.add(homeBackboard.getMesh());
+	scene.add(awayBackboard.getMesh());
+	scene.add(homeRim.getMesh());
+	scene.add(awayRim.getMesh());
+	scene.add(homeNet.getMesh());
+	scene.add(awayNet.getMesh());
+	scene.add(skyBox);
+	scene.add(basketball.getMesh());
+	scene.add(arrowHelper);
 }
 
 function updateArrow(arrowHelper, basketball){
@@ -333,3 +331,49 @@ function render()
 
 	renderer.render(scene, camera);
 }
+
+var textureImageFiles = [
+	'http://www.aanojima.com/basketball/public/images/basketball.jpg',
+	'http://www.aanojima.com/basketball/public/images/basketball-court.png',
+	'http://www.aanojima.com/basketball/public/images/basketball-backboard-front.png',
+	'http://www.aanojima.com/basketball/public/images/basketball-backboard-back.png',
+	'http://www.aanojima.com/basketball/public/images/basketball-backboard-side.png',
+	'http://www.aanojima.com/basketball/public/images/basketball-backboard-top.png'
+];
+var textures = [];
+
+function loadTexture(callback, textureImageFiles, index)
+{
+	if (index < textureImageFiles.length){
+		var loader = new THREE.TextureLoader();
+		loader.crossOrigin = '';
+		loader.load(
+			textureImageFiles[index],
+			function (texture){
+				textures.push(texture);
+				index++;
+				loadTexture(callback, textureImageFiles, index)
+			},
+			function (xhr){
+				console.log("progress...");
+			},
+			function (xhr){
+				console.log("error!");
+			}
+		);
+	}
+	else
+	{
+		callback();
+	}	
+}
+loadTexture(function(){
+	basketballTexture = textures[0];
+	basketballCourtTexture = textures[1];
+	basketballBackboardFrontTexture = textures[2];
+	basketballBackboardBackTexture = textures[3];
+	basketballBackboardSideTexture = textures[4];
+	basketballBackboardTopTexture = textures[5];
+	init();
+	animate();
+}, textureImageFiles, 0);

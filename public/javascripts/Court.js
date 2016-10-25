@@ -59,29 +59,14 @@ function Court(){
 		var material = new THREE.MeshPhongMaterial({
 			color : 0xffffff,
 			side: THREE.DoubleSide,
-			shininess: 30
+			shininess: 30,
+			map: basketballCourtTexture
 		});
 		var geometry = new THREE.PlaneBufferGeometry(FEET(94), FEET(50), 10, 10);
 		_mesh = new THREE.Mesh(geometry, material);
 		_mesh.receiveShadow = true;
 		_mesh.rotation.x = Math.PI / 2;
 		_offset = _mesh.position.y;
-
-		var loader = new THREE.TextureLoader();
-		loader.crossOrigin = '';
-		loader.load(
-			'http://www.aanojima.com/basketball/public/images/basketball-court.png',
-			function (texture){
-				console.log(material);
-				material.map = texture;
-			},
-			function (xhr){
-				console.log("progress...");
-			},
-			function (xhr){
-				console.log("error!");
-			}
-		);
 	}
 
 	init();
