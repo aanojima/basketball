@@ -7,7 +7,8 @@ var keyboard = new KeyboardState();
 
 // custom global variables
 var basketball, court, homeBackboard, awayBackboard, homeRim, awayRim, homeNet, awayNet, arrowHelper;
-var step = 1/60.0; // PATRAMETER (60 FPS) 0.022
+var DEFAULT_STEP = 1 / 60.0;
+var step = DEFAULT_STEP; // PATRAMETER (60 FPS) 0.022
 // var step = 1/45; // PATRAMETER (45 FPS) 0.022
 var BOUNCE_THRESHOLD = METERS(0.75); // PARAMETER
 
@@ -142,7 +143,7 @@ function init()
 	scene.add(topLight1);
 	scene.add(topLight2);
 	scene.add(topLight3);
-	scene.add( light );
+	scene.add(light);
 	scene.add(court.getMesh());
 	scene.add(homeBackboard.getMesh());
 	scene.add(awayBackboard.getMesh());
@@ -155,10 +156,12 @@ function init()
 	scene.add(arrowHelper);
 }
 
-function updateArrow(arrowHelper, basketball){
+function updateArrow(arrowHelper, basketball)
+{
 	arrowHelper.setDirection(basketball.getVelocity().normalize());
 	var length = basketball.getVelocity().length() / 10;
-	if (length == 0){
+	if (length == 0)
+	{
 		length = 0.001;
 	}
 	arrowHelper.setLength(length);
@@ -166,11 +169,15 @@ function updateArrow(arrowHelper, basketball){
 	arrowHelper.position.set(bPos.x, bPos.y, bPos.z);
 }
 
-function animate() 
+function runGameLoop() 
 {
-    requestAnimationFrame( animate );
-	render();	
+	// var start = new Date;
+    requestAnimationFrame(runGameLoop);
 	update();
+	physics();
+	render();
+	// var end = new Date;
+	// step = Math.max((end - start) / 1000, DEFAULT_STEP);
 }
 
 function update()
@@ -184,19 +191,10 @@ function update()
 	controls.update();
 }
 
-function render() 
+function physics()
 {
-	if (camera.position.y < 1){
-		camera.position.y = 1
-	}
-
-	if ($("#follow-ball").is(":checked")){
-		controls.center = basketball.getPosition();
-	}
-
-
-
-	if (window.PLAY){
+	if (window.PLAY)
+	{
 		// Evaluate Derivatives
 		var F = basketball.evalF();
 		var velocity = F[0];
@@ -211,7 +209,8 @@ function render()
 		basketball.addVelocity(dVelocity);
 
 		var awayNetF = awayNet.evalF();
-		for (var i in awayNet.getKnots()){
+		for (var i in awayNet.getKnots())
+		{
 			var velocity = awayNetF['v'][i];
 			var acceleration = awayNetF['a'][i];
 			var dPosition = velocity.clone().multiplyScalar(step);
@@ -224,7 +223,8 @@ function render()
 		}
 
 		var homeNetF = homeNet.evalF();
-		for (var i in homeNet.getKnots()){
+		for (var i in homeNet.getKnots())
+		{
 			var velocity = homeNetF['v'][i];
 			var acceleration = homeNetF['a'][i];
 			var dPosition = velocity.clone().multiplyScalar(step);
@@ -241,7 +241,8 @@ function render()
 		var homeHit = {};
 		var homeBackboardCollision = homeBackboard.hasCollision(basketball, homeHit);
 		var courtCollision = court.hasCollision(basketball);
-		if (courtCollision){
+		if (courtCollision)
+		{
 			basketball.setCourtCollision(courtCollision);
 
 			// "FIX" Basketball Position
@@ -266,7 +267,8 @@ function render()
 			basketball.addFriction()
 		}
 		
-		if (awayBackboardCollision){
+		if (awayBackboardCollision)
+		{
 
 			// "FIX" Basketball position
 			awayBackboard.fixCollisionPosition(basketball, step, awayHit);
@@ -281,7 +283,8 @@ function render()
 			basketball.setAngularVelocity(rotationScale * finalVelocity.x, 0, rotationScale * finalVelocity.z);
 		}
 		
-		if (homeBackboardCollision){
+		if (homeBackboardCollision)
+		{
 			// "FIX" Basketball position
 			homeBackboard.fixCollisionPosition(basketball, homeHit);
 
@@ -296,7 +299,8 @@ function render()
 		}
 
 		var awayRimCollision = awayRim.handleCollision(basketball);
-		if (awayRimCollision){
+		if (awayRimCollision)
+		{
 			// // Spin off the rim
 			// basketball.setVelocity(0,0,0);
 			var finalVelocity = basketball.getVelocity();
@@ -305,7 +309,8 @@ function render()
 		}
 
 		var homeRimCollision = homeRim.handleCollision(basketball);
-		if (homeRimCollision){
+		if (homeRimCollision)
+		{
 			// // Spin off the rim
 			// basketball.setVelocity(0,0,0);
 			var finalVelocity = basketball.getVelocity();
@@ -314,10 +319,12 @@ function render()
 		}
 
 		var bRevVel = new THREE.Vector3(0,0,0);
-		for (var i in awayNet.getKnots()){
+		for (var i in awayNet.getKnots())
+		{
 			var knot = awayNet.getKnots()[i];
 			var result = knot.handleCollision(basketball, step);
-			if (result.intersection){
+			if (result.intersection)
+			{
 				bRevVel.add(result["reverse-velocity"]);
 			}
 		}
@@ -328,11 +335,25 @@ function render()
 		basketball.spin(step);
 		updateArrow(arrowHelper, basketball);
 	}
+}
+
+function render() 
+{
+	if (camera.position.y < 1)
+	{
+		camera.position.y = 1
+	}
+
+	if ($("#follow-ball").is(":checked"))
+	{
+		controls.center = basketball.getPosition();
+	}
 
 	renderer.render(scene, camera);
 }
 
-var textureImageFiles = [
+var textureImageFiles = 
+[
 	'http://www.aanojima.com/basketball/public/images/basketball.jpg',
 	'http://www.aanojima.com/basketball/public/images/basketball-court.png',
 	'http://www.aanojima.com/basketball/public/images/basketball-backboard-front.png',
@@ -344,20 +365,24 @@ var textures = [];
 
 function loadTexture(callback, textureImageFiles, index)
 {
-	if (index < textureImageFiles.length){
+	if (index < textureImageFiles.length)
+	{
 		var loader = new THREE.TextureLoader();
 		loader.crossOrigin = '';
 		loader.load(
 			textureImageFiles[index],
-			function (texture){
+			function (texture)
+			{
 				textures.push(texture);
 				index++;
 				loadTexture(callback, textureImageFiles, index)
 			},
-			function (xhr){
+			function (xhr)
+			{
 				console.log("progress...");
 			},
-			function (xhr){
+			function (xhr)
+			{
 				console.log("error!");
 			}
 		);
@@ -367,7 +392,8 @@ function loadTexture(callback, textureImageFiles, index)
 		callback();
 	}	
 }
-loadTexture(function(){
+loadTexture(function()
+{
 	basketballTexture = textures[0];
 	basketballCourtTexture = textures[1];
 	basketballBackboardFrontTexture = textures[2];
@@ -375,5 +401,5 @@ loadTexture(function(){
 	basketballBackboardSideTexture = textures[4];
 	basketballBackboardTopTexture = textures[5];
 	init();
-	animate();
+	runGameLoop();
 }, textureImageFiles, 0);
