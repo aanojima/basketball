@@ -5,13 +5,23 @@
     <link rel='shortcut icon' href='public/favicon.ico' type='image/x-icon'/ >
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css"/>
+
     <link rel=stylesheet href="public/stylesheets/base.css"/>
 </head>
 <body>
 
 <script src="public/javascripts/MathUtilities.js"></script>
-<!-- <script src="public/javascripts/jquery-1.9.1.js"></script> -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
 <!-- <script src="public/javascripts/Three.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.js"></script>
 <script src="public/javascripts/Detector.js"></script>
@@ -29,39 +39,155 @@
 </div>
 
 <div id="ThreeJS" style="position: absolute; left:0px; top:0px; bottom:150px"></div>
-<div id="control-menu">
+<!-- <div id="control-menu">
 	<div class="control-title"><b>CONTROLS</b></div>
-	<div class="control-row">
-		<div class="control-item">
+	<div class="control-row row">
+		<div class="control-item col-sm-2">
 			<div class="control-icon"><img id="play-button" src="http://www.aanojima.com/basketball/public/images/play-button.jpg" /></div>
 			<div class="control-label" id="play-label">PLAY</div>
 		</div>
-		<div class="control-item">
+		<div class="control-item col-sm-2">
 			<div class="control-icon"><img id="ball-icon" src="http://www.aanojima.com/basketball/public/images/basketball-icon.png" /></div>
 			<div class="control-label" id="ball-label"><input type="checkbox" id="follow-ball" checked="true" />FOLLOW BALL</div>
 		</div>
 		<div class="control-item">
 			<div class="control-label position-title">BALL POSITION</div>
-			<div class="control-label position-label">X: <span><input id="x-position" class="position-input float-input" size="10" /> ft</span></div>
-			<div class="control-label position-label">Y: <span><input id="y-position" class="position-input float-input" size="10" /> ft</span></div>
-			<div class="control-label position-label">Z: <span><input id="z-position" class="position-input float-input" size="10" /> ft</span></div>
+			<div class="form-group row">
+				<label for="x-position" class="control-label position-label col-2 col-form-label">X: </label>
+				<div class="col-10">
+					<input id="x-position" class="l" class="position-input float-input form-control" size="10" />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<div class="control-label position-label form-label">Y: <span><input id="y-position" class="position-input float-input form-control" size="10" /> ft</span></div>
+			</div>
+			
+			<div class="form-group row">
+				<div class="control-label position-label form-label">Z: <span><input id="z-position" class="position-input float-input form-control" size="10" /> ft</span></div>
+			</div>
+			
 			<div class="control-label"><button id="set-position-button">SET</button></div>
 		</div>
-		<div class="control-item">
+		<div class="control-item col-sm-2">
 			<div class="control-label">BALL VELOCITY</div>
 			<div class="control-label">X: <span><input type="range" min="-50" max="50" value="0" id="x-velocity" class="velocity-input float-input" step="0.1" /><input value="0" disabled size="1"/> ft</span></div>
 			<div class="control-label">Y: <span><input type="range" min="-50" max="50" value="0" id="y-velocity" class="velocity-input float-input" step="0.1" /><input value="0" disabled size="1"/> ft</span></div>
 			<div class="control-label">Z: <span><input type="range" min="-50" max="50" value="0" id="z-velocity" class="velocity-input float-input" step="0.1" /><input value="0" disabled size="1"/> ft</span></div>
 			<div class="control-label"><button id="set-velocity-button">SET</button></div>
 		</div>
-		<div class="control-item">
+		<div class="control-item col-sm-2">
 			<div class="control-icon"><img id="reset-button" src="http://www.aanojima.com/basketball/public/images/reset.png" /></div>
 			<div class="control-label" id="reset-label">RESET</div>
+		</div>
+	</div>
+</div> -->
+<div id="control-menu" class="container-fluid">
+	<div class="row">
+		<div class="col-md-2 col-sm-4 control-item">
+			<div class="control-title">Simulation</div>
+			<div class="control-content">
+				<div class="control-icon">
+					<img id="play-button" src="http://www.aanojima.com/basketball/public/images/play-button.jpg" />
+				</div>
+				<div class="control-label" id="play-label">PLAY</div>
+			</div>
+		</div>
+		<hr>
+		<div class="col-md-2 col-sm-4 control-item">
+			<div class="control-title">Camera</div>
+			<div class="control-content">
+				<div class="control-icon">
+					<img id="ball-icon" src="http://www.aanojima.com/basketball/public/images/basketball-icon.png" />
+				</div>
+				<div class="control-label" id="ball-label">
+					<input type="checkbox" id="follow-ball" checked="true" />Follow Ball
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 col-sm-4 control-item">
+			<div class="control-title" id="position-title">Ball Position</div>
+			<div class="control-content">
+				<div class="form-group row">
+					<label for="x-position" class="col-2 col-form-label">X:</label>
+					<div class="col-8">
+						<div class="input-group">
+							<input id="x-position" type="text" class="position-input float-input form-control" size="10" />
+							<span class="input-group-addon">ft.</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="y-position" class="col-2 col-form-label">Y:</label>
+					<div class="col-8">
+						<div class="input-group">
+							<input id="y-position" type="text" class="position-input float-input form-control" size="10" />
+							<span class="input-group-addon">ft.</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="z-position" class="col-2 col-form-label">Z:</label>
+					<div class="col-8">
+						<div class="input-group">
+							<input id="z-position" type="text" class="position-input float-input form-control" size="10" />
+							<span class="input-group-addon">ft.</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="control-label">
+					<button id="set-position-button" class="btn btn-md btn-primary">Set Position</button>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-md-3 col-sm-4 control-item">
+			<div class="control-title">Ball Velocity</div>
+			<div class="control-content">
+				<div class="form-group row">
+					<label for="x-velocity" class="col-2 col-form-label">X:</label>
+					<div class="col-8">
+						<input id="x-velocity" class="velocity-input" type="range" min="-50" max="50" step="0.1" value="0" />
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="y-velocity" class="col-2 col-form-label">Y:</label>
+					<div class="col-8">
+						<input id="y-velocity" class="velocity-input" type="range" min="-50" max="50" step="0.1" value="0" />
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="z-velocity" class="col-2 col-form-label">Z:</label>
+					<div class="col-8">
+						<input id="z-velocity" class="velocity-input" type="range" min="-50" max="50" step="0.1" value="0" />
+					</div>
+				</div>
+
+				<div class="control-label">
+					<button id="set-velocity-button" class="btn btn-md btn-success">Set Velocity</button>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-md-2 col-sm-4 control-item">
+			<div class="control-title">Reset</div>
+			<div class="control-title">
+				<div class="control-icon"><img id="reset-button" src="http://www.aanojima.com/basketball/public/images/reset.png" /></div>
+				<div class="control-label" id="reset-label">Default Values</div>
+			</div>
 		</div>
 	</div>
 </div>
 <script src="public/javascripts/events.js"></script>
 <script src="public/javascripts/main.js"></script>
+<script>
+
+</script>
 <!-- MIN WIDTH 955px -->
 </body>
 </html>
