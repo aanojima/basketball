@@ -223,22 +223,24 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
+		var isTouch = event.touches !== undefined;
+
 		if ( state === STATE.NONE )
 		{
-			if ( event.button === 0 )
+			if ( event.button === 0 || (isTouch && event.touches.length === 1))
 				state = STATE.ROTATE;
-			if ( event.button === 1 )
+			if ( event.button === 1 || (isTouch && event.touches.length === 2))
 				state = STATE.ZOOM;
 			if ( event.button === 2 )
 				state = STATE.PAN;
 		}
-		
 
 		if ( state === STATE.ROTATE ) {
 
 			//state = STATE.ROTATE;
-
-			rotateStart.set( event.clientX, event.clientY );
+			var clientX = isTouch ? event.touches[0].clientX : event.clientX;
+			var clientY = isTouch ? event.touches[0].clientY : event.clientY;
+			rotateStart.set( clientX, clientY );
 
 		} else if ( state === STATE.ZOOM ) {
 
@@ -255,6 +257,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 		document.addEventListener( 'mousemove', onMouseMove, false );
 		document.addEventListener( 'mouseup', onMouseUp, false );
 
+		document.addEventListener( 'touchmove', onMouseMove, false );
+		document.addEventListener( 'touchend', onMouseUp, false );
+
 	}
 
 	function onMouseMove( event ) {
@@ -263,11 +268,13 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
-		
+		var isTouch = event.touches !== undefined;
 		
 		if ( state === STATE.ROTATE ) {
 
-			rotateEnd.set( event.clientX, event.clientY );
+			var clientX = isTouch ? event.touches[0].clientX : event.clientX;
+			var clientY = isTouch ? event.touches[0].clientY : event.clientY;
+			rotateEnd.set( clientX, clientY );
 			rotateDelta.subVectors( rotateEnd, rotateStart );
 
 			scope.rotateLeft( 2 * Math.PI * rotateDelta.x / PIXELS_PER_ROUND * scope.userRotateSpeed );
@@ -310,6 +317,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		document.removeEventListener( 'mousemove', onMouseMove, false );
 		document.removeEventListener( 'mouseup', onMouseUp, false );
+
+		document.removeEventListener( 'touchmove', onMouseMove, false );
+		document.removeEventListener( 'touchend', onMouseUp, false );
 
 		state = STATE.NONE;
 
@@ -394,6 +404,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.domElement.addEventListener( 'contextmenu', function ( event ) { event.preventDefault(); }, false );
 	this.domElement.addEventListener( 'mousedown', onMouseDown, false );
 	this.domElement.addEventListener( 'mousewheel', onMouseWheel, false );
+	this.domElement.addEventListener('touchstart', onMouseDown, false );
 	this.domElement.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
 	window.addEventListener( 'keydown', onKeyDown, false );
 	window.addEventListener( 'keyup', onKeyUp, false );
