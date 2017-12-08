@@ -154,6 +154,10 @@ function init()
 	scene.add(skyBox);
 	scene.add(basketball.getMesh());
 	scene.add(arrowHelper);
+
+	stats = new Stats();
+	stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+	document.body.appendChild( stats.dom );
 }
 
 function updateArrow(arrowHelper, basketball)
@@ -172,10 +176,12 @@ function updateArrow(arrowHelper, basketball)
 function runGameLoop() 
 {
 	// var start = new Date;
+	stats.begin();
     requestAnimationFrame(runGameLoop);
 	update();
 	physics();
 	render();
+	stats.end();
 	// var end = new Date;
 	// step = Math.max((end - start) / 1000, DEFAULT_STEP);
 }
