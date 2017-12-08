@@ -45,8 +45,8 @@ function init()
 	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
 	
 	// CONTROLS
-	controls = new THREE.OrbitControls( camera, renderer.domElement );
-	controls.center = new THREE.Vector3(FEET(0), FEET(0), FEET(0));
+	controls = new THREE.TrackballControls( camera, renderer.domElement );
+	controls.target = new THREE.Vector3(FEET(0), FEET(0), FEET(0));
 	
 	// LIGHT
 	var topLight1 = new THREE.DirectionalLight(0xffffff);
@@ -115,7 +115,7 @@ function init()
 	$(document).on("setposition", function(event, x, y, z){
 		basketball.setPosition(x, y, z);
 		updateArrow(arrowHelper, basketball);
-		controls.center = basketball.getPosition();
+		controls.target = basketball.getPosition();
 	});
 	$(document).on("setvelocity", function(event, x, y, z){
 		basketball.setVelocity(x, y, z);
@@ -136,7 +136,7 @@ function init()
 		updateArrow(arrowHelper, basketball);
 	});
 	$(document).on("ballfocus", function(event){
-		controls.center = basketball.getPosition();
+		controls.target = basketball.getPosition();
 	});
 
 	scene.add(camera);
@@ -346,7 +346,7 @@ function render()
 
 	if ($("#follow-ball").is(":checked"))
 	{
-		controls.center = basketball.getPosition();
+		controls.target = basketball.getPosition();
 	}
 
 	renderer.render(scene, camera);
